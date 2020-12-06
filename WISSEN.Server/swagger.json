@@ -1,0 +1,226 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "version": "1.0.0",
+        "title": "Wissen Assignment",
+        "description": "Wissen Assignment Application API Documentations",
+        "license": {
+            "name": "Home",
+            "url": ""
+        }
+    },
+    "host": "0.0.0.0:3000",
+    "basePath": "/api/",
+    "tags": [{
+        "name": "WISSEN USER",
+        "description": "API's to manage Authentication in the system"
+    }],
+    "schemes": [
+        "http",
+        "https"
+    ],
+    "consumes": [
+        "application/json"
+    ],
+    "produces": [
+        "application/json"
+    ],
+    "securityDefinitions": {
+        "jwt": {
+            "description": "The following syntax of jwt token must be passed in below input box 'Bearer token_return_by_api_auth'",
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header"
+        }
+    },
+    "paths": {
+        "/auth/local": {
+            "post": {
+                "summary": "Allow users to log in into system",
+                "tags": [
+                    "WISSEN USER"
+                ],
+                "parameters": [{
+                    "name": "Login",
+                    "in": "body",
+                    "description": "Provide your credentials",
+                    "schema": {
+                        "$ref": "#/definitions/AUTH"
+                    }
+                }],
+                "responses": {
+                    "200": {
+                        "description": "Authentication Success!!!!",
+                        "schema": {
+                            "$ref": "#/definitions/RESPONSE"
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error"
+                    }
+                }
+            }
+        },
+        "/users/me": {
+            "get": {
+                "summary": "Get user info in system",
+                "tags": [
+                    "WISSEN USER"
+                ],
+                "security": [{
+                    "jwt": []
+                }],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/RESPONSE"
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error"
+                    }
+                }
+            }
+        },
+        "/users": {
+            "post": {
+                "summary": "Submit external user details in system",
+                "tags": [
+                    "WISSEN USER"
+                ],
+                "parameters": [{
+                    "name": "user details",
+                    "in": "body",
+                    "description": "Fill details to submit",
+                    "schema": {
+                        "$ref": "#/definitions/EXTERNAL_USER_FORM"
+                    }
+                }],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/RESPONSE"
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error"
+                    }
+                }
+            }
+        },
+        "/users/all": {
+            "post": {
+                "summary": " list/search external users details with pagination",
+                "tags": [
+                    "WISSEN USER"
+                ],
+                "parameters": [{
+                    "name": "user list",
+                    "in": "body",
+                    "description": "Fill details to submit",
+                    "schema": {
+                        "$ref": "#/definitions/FILTER_EXTERNAL_USER"
+                    }
+                }],
+                "security": [{
+                    "jwt": []
+                }],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/RESPONSE"
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error"
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "AUTH": {
+            "properties": {
+                "email": {
+                    "type": "string",
+                    "example": "admin@wissen.com"
+                },
+                "password": {
+                    "type": "string",
+                    "example": "admin"
+                }
+            }
+        },
+        "RESPONSE": {
+            "properties": {
+                "code": {
+                    "type": "integer"
+                },
+                "data": {
+                    "type": "object"
+                },
+                "error": {
+                    "type": "string"
+                },
+                "message": {
+                    "type": "string"
+                }
+            }
+        },
+        "EXTERNAL_USER_FORM": {
+            "properties": {
+
+                "firstName": {
+                    "type": "string",
+                    "example": "Ajit"
+                },
+                "lastName": {
+                    "type": "string",
+                    "example": "Kumar"
+                },
+                "fullAddress": {
+                    "type": "string",
+                    "example": "India"
+                },
+                "email": {
+                    "type": "string",
+                    "example": "er.ajitkumar90@gmail.com"
+                },
+                "PhoneNumber": {
+                    "type": "string",
+                    "example": "9099999999999"
+                },
+                "ssn": {
+                    "type": "string",
+                    "example": "some screte"
+                }
+            }
+        },
+        "FILTER_EXTERNAL_USER": {
+            "properties": {
+                "where": {
+                    "properties": {
+                        "q": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "page": {
+                    "type": "integer",
+                    "example": 1
+                },
+                "limit": {
+                    "type": "integer",
+                    "example": 30
+                },
+                "getType": {
+                    "type": "string",
+                    "example": "all"
+                }
+            }
+        }
+    }
+}
